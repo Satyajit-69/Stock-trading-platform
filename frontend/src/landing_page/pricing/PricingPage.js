@@ -1,29 +1,14 @@
-import Footer from "../footer";
-import Navbar from "../Navbar";
-import Brokerage from "./Brokerage";
-import Hero from "./Hero";
+import React from 'react';
+import Hero from './Hero';
+import Brokerage from './Brokerage';
 
 function PricingPage() {
-    return (
-        <>  
-            <div className="price">
-           
-            <hr />
-             
-             <p>Pricing section </p>
-         
-
-
-            <Hero />
-            <Brokerage />
-            <hr />
-         
-
-
-            </div>
-            
-        </>
-    );
+  return (
+    <>
+      <Hero />
+      <Brokerage />
+    </>
+  );
 }
 
 export default PricingPage;
