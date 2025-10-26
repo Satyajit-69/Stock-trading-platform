@@ -5,6 +5,7 @@ A full-stack stock trading platform inspired by Zerodha. This project replicates
 ## Project Status
 
 Currently building the complete application with both frontend and backend.
+Live Demo : - https://stock-trading-platform-seven.vercel.app/
 
 ## Features
 
