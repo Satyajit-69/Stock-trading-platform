@@ -1,5 +1,4 @@
-import Footer from "./footer";
-import Navbar from "./Navbar";
+
 
 function NotFound() {
     return ( 
