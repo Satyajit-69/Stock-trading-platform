@@ -9,7 +9,7 @@ function SignUp() {
      
        <div className="container align-items-center mt-5">
         <div className="row">
-        <p>this is the signup page</p>
+        <p>this is the signup page hellow 💖</p>
             <form action="">
               <input type="text"  placeholder="enter ur name"/>
               <br />
