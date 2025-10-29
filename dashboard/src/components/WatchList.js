@@ -137,7 +137,7 @@ const WatchListActions = ({ uid }) => {
   };
 
   return (
-    <span className="actions justify-center">
+    <span className="actions">
       <span>
         <Tooltip
           title="Buy (B)"
