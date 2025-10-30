@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react" ;
+import React, { useState, useContext } from "react";
 import GeneralContext from "./GeneralContext";
 
 import { Tooltip, Grow } from "@mui/material";
@@ -88,7 +88,6 @@ const WatchList = () => {
           return <WatchListItem stock={stock} key={index} />;
         })}
       </ul>
-      
 
       {/* Chart Section  */}
       <DoughnutChart data={data} />
@@ -136,6 +135,10 @@ const WatchListActions = ({ uid }) => {
     generalContext.openBuyWindow(uid);
   };
 
+  const handleSellClick = () => {
+    generalContext.openSellWindow(uid) ;
+  }
+
   return (
     <span className="actions">
       <span>
@@ -153,6 +156,7 @@ const WatchListActions = ({ uid }) => {
           placement="top"
           arrow
           TransitionComponent={Grow}
+          onClick={handleSellClick}
         >
           <button className="sell">Sell</button>
         </Tooltip>
