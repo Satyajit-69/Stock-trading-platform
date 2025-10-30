@@ -21,7 +21,7 @@ const Menu = () => {
     <div className="menu-container">
       <img src="logo.png" style={{ width: "50px" }} alt="logo_image" />
       <div className="menus">
-        <ul>
+        <ul style={{fontFamily: "Nunito"}}>
           <li>
             <Link
               style={{ textDecoration: "none" }}
