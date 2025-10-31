@@ -14,7 +14,10 @@ const PositionModel = require("./models/PositionModel");
 const OrderModel = require("./models/OrderModel");
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:3000', 'http://localhost:5173', 'https://*.vercel.app'],
+  credentials: true
+}));
 app.use(bodyParser.json());
 
 // ✅ Add Position data (test route)
