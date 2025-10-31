@@ -234,15 +234,26 @@ app.get("/getStockPrice/:name", async (req, res) => {
 
 
 
-
-
 // ✅ Connect to MongoDB and start server
+const mongoUrl = process.env.MONGO_URL || process.env.MONGODB_URI;
+
+if (!mongoUrl) {
+  console.error("❌ MONGO_URL environment variable is not set!");
+  process.exit(1);
+}
+
+console.log("🔗 Attempting to connect to MongoDB...");
+
 mongoose
-  .connect(url)
+  .connect(mongoUrl)
   .then(() => {
     console.log("MongoDB connected ✅");
-    app.listen(PORT, () =>
-      console.log(`Backend running 🏃‍➡️ on port ${PORT} 📡`)
-    );
+    app.listen(PORT, () => {
+      console.log(`Backend running 🏃‍➡️ on port ${PORT} 📡`);
+      console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+    });
   })
-  .catch((err) => console.log("MongoDB connection failed ❌", err));
+  .catch((err) => {
+    console.log("MongoDB connection failed ❌", err);
+    process.exit(1);
+  });
