@@ -9,7 +9,7 @@ const Holdings = () => {
 
   useEffect(() => {
     //connect to the link (backend)
-    axios.get("http://localhost:3001/allHoldings").then((res) => {
+    axios.get("https://stock-monitoring-platform-backend.onrender.com/allHoldings").then((res) => {
       console.log(res.data);
       setAllHoldings(res.data);
     });

@@ -5,7 +5,7 @@ const Positions = () => {
   const [allPositions, setAllPositions] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:3001/allPositions").then((res) => {
+    axios.get("https://stock-monitoring-platform-backend.onrender.com/allPositions").then((res) => {
       console.log(res.data);
       // clean + sanitize data
       const cleanData = res.data.map((item) => ({
