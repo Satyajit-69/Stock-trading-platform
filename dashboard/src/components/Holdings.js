@@ -15,7 +15,9 @@ const Holdings = () => {
     });
   }, []);
 
-  // const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+  // const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];]
+
+  // extracting for label title for the graph
   const labels = allHoldings.map((subArray) => subArray["name"]);
 
   const data = {
@@ -24,26 +26,11 @@ const Holdings = () => {
       {
         label: "Stock Price",
         data: allHoldings.map((stock) => stock.price),
-        backgroundColor: "rgba(255, 0, 0, 0.59)",
+        backgroundColor: "rgba(75, 69, 69, 1)",
       },
     ],
   };
 
-  // export const data = {
-  //   labels,
-  //   datasets: [
-  // {
-  //   label: 'Dataset 1',
-  //   data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-  //   backgroundColor: 'rgba(255, 99, 132, 0.5)',
-  // },
-  //     {
-  //       label: 'Dataset 2',
-  //       data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-  //       backgroundColor: 'rgba(53, 162, 235, 0.5)',
-  //     },
-  //   ],
-  // };
 
   return (
     <>
@@ -106,6 +93,9 @@ const Holdings = () => {
           <p>P&L</p>
         </div>
       </div>
+
+
+      {/* vertical graph  */}
       <VerticalGraph data={data} />
     </>
   );
