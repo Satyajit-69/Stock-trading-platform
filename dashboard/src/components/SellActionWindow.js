@@ -14,7 +14,7 @@ const SellActionWindow = ({ uid }) => {
   useEffect(() => {
     const fetchStockPrice = async () => {
       try {
-        const res = await axios.get(`https://stock-monitoring-platform-backend.onrender.com/getStockPrice/${uid}`);
+        const res = await axios.get(`https://stock-monitoring-platfrom-backend.onrender.com/getStockPrice/${uid}`);
         const price = parseFloat(res.data.price) || 0;
         console.log("Fetched price:", price); // Debug log
         setStockPricePerUnit(price);
@@ -41,7 +41,7 @@ const SellActionWindow = ({ uid }) => {
 
   const handleSellClick = async () => {
     try {
-      await axios.post("https://stock-monitoring-platform-backend.onrender.com/sellOrder", {
+      await axios.post("https://stock-monitoring-platfrom-backend.onrender.com/sellOrder", {
         name: uid,
         qty: stockQuantity,
         price: totalPrice,

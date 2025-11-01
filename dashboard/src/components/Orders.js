@@ -12,7 +12,7 @@ const Orders = () => {
 
   const fetchOrders = async () => {
     try {
-      const res = await axios.get("https://stock-monitoring-platform-backend.onrender.com/allOrders");
+      const res = await axios.get("https://stock-monitoring-platfrom-backend.onrender.com/allOrders");
       setOrders(res.data);
       setLoading(false);
     } catch (err) {
