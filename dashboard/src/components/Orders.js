@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
+// Backend URL
+const API_BASE = "http://localhost:3001";
+
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -12,7 +15,7 @@ const Orders = () => {
 
   const fetchOrders = async () => {
     try {
-      const res = await axios.get("https://stock-monitoring-platfrom-backend.onrender.com/allOrders");
+      const res = await axios.get(`${API_BASE}/allOrders`);
       setOrders(res.data);
       setLoading(false);
     } catch (err) {
@@ -37,6 +40,7 @@ const Orders = () => {
       ) : (
         <div className="orders-table">
           <h3 className="title">Orders ({orders.length})</h3>
+
           <table>
             <thead>
               <tr>
@@ -47,22 +51,25 @@ const Orders = () => {
                 <th>Date</th>
               </tr>
             </thead>
+
             <tbody>
               {orders.map((order, index) => (
                 <tr key={index}>
                   <td>{order.name}</td>
                   <td>{order.qty}</td>
                   <td>{parseFloat(order.price).toFixed(2)}</td>
+
                   <td>
                     <span className={order.mode === "BUY" ? "text-blue" : "text-red"}>
                       {order.mode}
                     </span>
                   </td>
+
                   <td>
-                    {order.createdAt 
-                      ? new Date(order.createdAt).toLocaleString('en-IN', {
-                          dateStyle: 'short',
-                          timeStyle: 'short'
+                    {order.createdAt
+                      ? new Date(order.createdAt).toLocaleString("en-IN", {
+                          dateStyle: "short",
+                          timeStyle: "short",
                         })
                       : "N/A"}
                   </td>

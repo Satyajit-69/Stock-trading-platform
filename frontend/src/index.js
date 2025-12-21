@@ -9,6 +9,7 @@ import AboutPage from './landing_page/about/AboutPage';
 import PricingPage from './landing_page/pricing/PricingPage';
 import SupportPage from './landing_page/support/SupportPage';
 import SignUp from './landing_page/signup/Signup';
+import Login from './landing_page/signup/Login';
 import NotFound from './landing_page/notFound';
 import Navbar from './landing_page/Navbar';
 import Footer from './landing_page/footer';
@@ -20,6 +21,7 @@ root.render(
     <Navbar />
     <Routes>
       <Route path="/" element={<HomePage />} />
+      <Route path="/Login" element={<Login />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/products" element={<ProductPage />} />

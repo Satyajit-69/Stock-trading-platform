@@ -4,21 +4,24 @@ import axios from "axios";
 import GeneralContext from "./GeneralContext";
 import "./BuyActionWindow.css";
 
+// CONFIG — single place to update URL
+const API_BASE = "http://localhost:3001";
+
 const SellActionWindow = ({ uid }) => {
   const [stockQuantity, setStockQuantity] = useState(1);
   const [stockPricePerUnit, setStockPricePerUnit] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
   const { closeSellWindow } = useContext(GeneralContext);
 
-  // 🔹 Fetch current stock price when component mounts
+  // 🔹 Fetch current stock price
   useEffect(() => {
     const fetchStockPrice = async () => {
       try {
-        const res = await axios.get(`https://stock-monitoring-platfrom-backend.onrender.com/getStockPrice/${uid}`);
+        const res = await axios.get(`${API_BASE}/getStockPrice/${uid}`);
         const price = parseFloat(res.data.price) || 0;
-        console.log("Fetched price:", price); // Debug log
+
         setStockPricePerUnit(price);
-        setTotalPrice(price.toFixed(2)); // initialize for 1 qty
+        setTotalPrice((1 * price).toFixed(2));
       } catch (err) {
         console.error("Error fetching stock price:", err);
       }
@@ -27,33 +30,34 @@ const SellActionWindow = ({ uid }) => {
     fetchStockPrice();
   }, [uid]);
 
-  // 🔹 Recalculate total price when qty or price changes
+  // 🔹 Recalculate total price on change
   useEffect(() => {
     const qty = parseFloat(stockQuantity) || 0;
     const price = parseFloat(stockPricePerUnit) || 0;
     setTotalPrice((qty * price).toFixed(2));
   }, [stockQuantity, stockPricePerUnit]);
 
+  // Qty handler
   const handleQuantityChange = (e) => {
     const value = parseInt(e.target.value) || 1;
     setStockQuantity(value);
   };
 
+  // 🔹 Sell Request
   const handleSellClick = async () => {
     try {
-      await axios.post("https://stock-monitoring-platfrom-backend.onrender.com/sellOrder", {
+      await axios.post(`${API_BASE}/sellOrder`, {
         name: uid,
         qty: stockQuantity,
         price: totalPrice,
       });
+
       closeSellWindow();
+      alert("Sell order executed successfully!");
     } catch (err) {
       console.error("Error while selling:", err);
+      alert("Error selling! Check console.");
     }
-  };
-
-  const handleCancelClick = () => {
-    closeSellWindow();
   };
 
   return (
@@ -64,23 +68,15 @@ const SellActionWindow = ({ uid }) => {
             <legend>Qty.</legend>
             <input
               type="number"
-              name="qty"
-              id="qty"
               min="1"
-              onChange={handleQuantityChange}
               value={stockQuantity}
+              onChange={handleQuantityChange}
             />
           </fieldset>
+
           <fieldset>
             <legend>Total (₹)</legend>
-            <input
-              type="number"
-              name="price"
-              id="price"
-              step="0.05"
-              value={totalPrice}
-              readOnly
-            />
+            <input type="number" value={totalPrice} readOnly />
           </fieldset>
         </div>
       </div>
@@ -91,7 +87,7 @@ const SellActionWindow = ({ uid }) => {
           <Link className="btn btn-blue" onClick={handleSellClick}>
             Sell
           </Link>
-          <Link to="" className="btn btn-grey" onClick={handleCancelClick}>
+          <Link className="btn btn-grey" onClick={closeSellWindow}>
             Cancel
           </Link>
         </div>

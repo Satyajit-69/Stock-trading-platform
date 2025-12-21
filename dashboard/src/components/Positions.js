@@ -2,64 +2,76 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const Positions = () => {
-  const [allPositions, setAllPositions] = useState([]);
+  const [positions, setPositions] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get("https://stock-monitoring-platfrom-backend.onrender.com/allPositions").then((res) => {
-      console.log(res.data);
-      // clean + sanitize data
-      const cleanData = res.data.map((item) => ({
-        ...item,
-        avg: Number(item.avg) || 0,
-        price: Number(item.price) || 0,
-        qty: Number(item.qty) || 0,
-      }));
-      setAllPositions(cleanData);
-    });
+    fetchPositions();
   }, []);
 
+  const fetchPositions = async () => {
+    try {
+      const res = await axios.get("http://localhost:3001/allPositions");
+      setPositions(res.data);
+      setLoading(false);
+    } catch (err) {
+      console.error("Error fetching positions:", err);
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return <div className="orders">Loading positions...</div>;
+  }
+
   return (
-    <>
-      <h3 className="title">Positions ({allPositions.length})</h3>
+    <div className="orders">
+      <h3 className="title">Positions ({positions.length})</h3>
 
-      <div className="order-table">
-        <table>
-          <thead>
-            <tr>
-              <th>Product</th>
-              <th>Instrument</th>
-              <th>Qty.</th>
-              <th>Avg.</th>
-              <th>LTP</th>
-              <th>P&L</th>
-              <th>Chg.</th>
-            </tr>
-          </thead>
+      {positions.length === 0 ? (
+        <p>No open positions</p>
+      ) : (
+        <div className="orders-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Instrument</th>
+                <th>Qty</th>
+                <th>Avg</th>
+                <th>LTP</th>
+                <th>P&L</th>
+                <th>Chg</th>
+              </tr>
+            </thead>
 
-          <tbody>
-            {allPositions.map((stock, index) => {
-              const curValue = stock.price * stock.qty;
-              const pnl = curValue - stock.avg * stock.qty;
-              const isProfit = pnl >= 0;
-              const profClass = isProfit ? "profit" : "loss";
-              const dayClass = stock.isLoss ? "loss" : "profit";
+            <tbody>
+              {positions.map((pos, idx) => {
+                const currVal = pos.price * pos.qty;
+                const pnl = currVal - pos.avg * pos.qty;
+                const isProfit = pnl >= 0;
 
-              return (
-                <tr key={index}>
-                  <td>{stock.product || "--"}</td>
-                  <td>{stock.name || "--"}</td>
-                  <td>{stock.qty}</td>
-                  <td>{stock.avg.toFixed(2)}</td>
-                  <td>{stock.price.toFixed(2)}</td>
-                  <td className={profClass}>{pnl.toFixed(2)}</td>
-                  <td className={dayClass}>{stock.day || "--"}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-    </>
+                return (
+                  <tr key={idx}>
+                    <td>{pos.product}</td>
+                    <td>{pos.name}</td>
+                    <td>{pos.qty}</td>
+                    <td>{pos.avg.toFixed(2)}</td>
+                    <td>{pos.price.toFixed(2)}</td>
+                    <td className={isProfit ? "profit" : "loss"}>
+                      {pnl.toFixed(2)}
+                    </td>
+                    <td className={pos.isLoss ? "loss" : "profit"}>
+                      {pos.day}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
   );
 };
 

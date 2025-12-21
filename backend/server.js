@@ -1,26 +1,35 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
-const url = process.env.MONGO_URL;
+const mongoUrl = process.env.MONGO_URL || process.env.MONGODB_URI;
 
 // Models
 const HoldingModel = require("./models/HoldingModel");
 const PositionModel = require("./models/PositionModel");
 const OrderModel = require("./models/OrderModel");
 
+// -----------------------------
 // Middleware
+// -----------------------------
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:5173', 'https://*.vercel.app'],
+  origin: [
+    "http://localhost:3000",
+    "http://localhost:5173",
+  ],
   credentials: true
 }));
+
+app.use(express.json());
 app.use(bodyParser.json());
 
-// ✅ Add Position data (test route)
+// -----------------------------
+// TEST ROUTE (Add sample positions)
+// -----------------------------
 app.get("/addPosition", async (req, res) => {
   const tempPosition = [
     {
@@ -47,54 +56,56 @@ app.get("/addPosition", async (req, res) => {
 
   try {
     for (const item of tempPosition) {
-      const newPosition = new PositionModel(item);
-      await newPosition.save();
-      console.log("Saved:", newPosition);
+      const newPos = new PositionModel(item);
+      await newPos.save();
+      console.log("Saved:", newPos);
     }
-    res.send("✅ Positions added successfully!");
+    res.send("Positions added successfully!");
   } catch (err) {
     console.error(err);
-    res.status(500).send("❌ Error adding positions");
+    res.status(500).send("Error adding positions");
   }
 });
 
-// ✅ Get all holdings
+// -----------------------------
+// Holdings
+// -----------------------------
 app.get("/allHoldings", async (req, res) => {
   try {
-    const allHoldings = await HoldingModel.find({});
-    res.json(allHoldings);
+    const data = await HoldingModel.find({});
+    res.json(data);
   } catch (err) {
     console.error(err);
     res.status(500).send("Error fetching holdings");
   }
 });
 
-// ✅ Get all positions
+// -----------------------------
+// Positions
+// -----------------------------
 app.get("/allPositions", async (req, res) => {
   try {
-    const allPositions = await PositionModel.find({});
-    res.json(allPositions);
+    const data = await PositionModel.find({});
+    res.json(data);
   } catch (err) {
     console.error(err);
     res.status(500).send("Error fetching positions");
   }
 });
 
-// ✅ Get all orders
+// -----------------------------
+// Orders (GET + POST)
+// -----------------------------
 app.get("/allOrders", async (req, res) => {
   try {
-    // Fetch all orders, sorted by newest first
-    const allOrders = await OrderModel.find({}).sort({ createdAt: -1 });
-    res.json(allOrders);
+    const data = await OrderModel.find({}).sort({ createdAt: -1 });
+    res.json(data);
   } catch (err) {
     console.error("Error fetching orders:", err);
-    res.status(500).json({ 
-      message: "Error fetching orders",
-      error: err.message 
-    });
+    res.status(500).json({ message: "Error fetching orders" });
   }
 });
-// ✅ POST new order
+
 app.post("/newOrder", async (req, res) => {
   try {
     const newOrder = new OrderModel({
@@ -105,155 +116,101 @@ app.post("/newOrder", async (req, res) => {
     });
 
     await newOrder.save();
-    console.log("🆕 Order saved:", newOrder);
-    res.status(201).send("Order placed successfully 🚀");
+    res.status(201).send("Order placed successfully!");
   } catch (err) {
     console.error(err);
-    res.status(500).send("Error placing order 😓");
+    res.status(500).send("Error placing order");
   }
 });
 
-// ✅ SELL the order - Updated to handle both Holdings and Positions
+// -----------------------------
+// Sell Order
+// -----------------------------
 app.post("/sellOrder", async (req, res) => {
   try {
     const { name, qty, price } = req.body;
 
-    console.log(`📤 Sell request: ${qty} shares of ${name}`);
+    // Check holdings first
+    let stock = await HoldingModel.findOne({ name });
+    let fromHolding = true;
 
-    // Try to find in HoldingModel first
-    let existingStock = await HoldingModel.findOne({ name });
-    let isFromHolding = true;
-
-    // If not in Holdings, check PositionModel
-    if (!existingStock) {
-      existingStock = await PositionModel.findOne({ name });
-      isFromHolding = false;
+    if (!stock) {
+      stock = await PositionModel.findOne({ name });
+      fromHolding = false;
     }
 
-    if (!existingStock) {
-      return res.status(404).json({ 
-        success: false,
-        message: "❌ Stock not found in holdings or positions" 
-      });
+    if (!stock) {
+      return res.status(404).json({ message: "Stock not found" });
     }
 
-    // Check if user has enough quantity to sell
-    if (existingStock.qty < qty) {
+    if (stock.qty < qty) {
       return res.status(400).json({
-        success: false,
-        message: `❌ Insufficient quantity. You have ${existingStock.qty} shares, trying to sell ${qty}`
+        message: `Insufficient quantity. You have ${stock.qty}, trying to sell ${qty}`
       });
     }
 
-    // Reduce the quantity
-    existingStock.qty -= qty;
+    // Update qty
+    stock.qty -= qty;
 
-    // If all qty sold → delete the stock
-    if (existingStock.qty <= 0) {
-      if (isFromHolding) {
-        await HoldingModel.deleteOne({ name });
-      } else {
-        await PositionModel.deleteOne({ name });
-      }
-      console.log(`🧾 Sold all of ${name}, removed from ${isFromHolding ? 'holdings' : 'positions'}`);
+    if (stock.qty === 0) {
+      fromHolding ? await HoldingModel.deleteOne({ name }) : await PositionModel.deleteOne({ name });
     } else {
-      await existingStock.save();
-      console.log(`💸 Updated ${name}: ${existingStock.qty} shares remaining`);
+      await stock.save();
     }
 
-    // Log the sell in Orders collection
-    const sellOrder = new OrderModel({
-      name,
-      qty,
-      price,
-      mode: "SELL",
-    });
-
+    // Save order
+    const sellOrder = new OrderModel({ name, qty, price, mode: "SELL" });
     await sellOrder.save();
 
-    res.status(200).json({
-      success: true,
-      message: "✅ Sell order completed successfully!",
-      remainingQty: existingStock.qty > 0 ? existingStock.qty : 0
-    });
+    res.status(200).json({ message: "Sell order completed!" });
 
   } catch (err) {
-    console.error("Error in /sellOrder:", err);
-    res.status(500).json({
-      success: false,
-      message: "❌ Error processing sell order: " + err.message
-    });
+    console.error("Sell error:", err);
+    res.status(500).json({ message: "Error processing sell order" });
   }
 });
 
-
-
-//to get the stock price 
+// -----------------------------
+// Get stock price
+// -----------------------------
 app.get("/getStockPrice/:name", async (req, res) => {
   try {
     const { name } = req.params;
-    console.log("Fetching price for:", name);
-    
-    // Try to find stock in HoldingsModel first
-    let stock = await HoldingModel.findOne({ name: name });
-    
-    // If not found in Holdings, try PositionsModel
+
+    let stock = await HoldingModel.findOne({ name });
+    if (!stock) stock = await PositionModel.findOne({ name });
+
     if (!stock) {
-      console.log("Not found in Holdings, checking Positions...");
-      stock = await PositionsModel.findOne({ name: name });
+      return res.status(404).json({ price: 0, message: "Stock not found" });
     }
-    
-    if (!stock) {
-      console.log("Stock not found:", name);
-      return res.status(404).json({ 
-        price: 0,   
-        message: "Stock not found" 
-      });
-    }
-    
-    console.log("Stock found:", stock);
-    
-    // Try different possible field names for price
+
     const price = parseFloat(stock.price || stock.ltp || stock.avg || 0);
-    
-    console.log("Returning price:", price);
+
     res.json({ price });
-    
+
   } catch (err) {
-    console.error("Error in getStockPrice:", err.message);
-    res.status(500).json({ 
-      price: 0, 
-      message: "Server error: " + err.message 
-    });
+    console.error("Error in getStockPrice:", err);
+    res.status(500).json({ price: 0, message: err.message });
   }
 });
 
-
-
-
-
-
-
-// ✅ Connect to MongoDB and start server
-const mongoUrl = process.env.MONGO_URL || process.env.MONGODB_URI;
-
+// -----------------------------
+// MongoDB Connect + Start Server
+// -----------------------------
 if (!mongoUrl) {
-  console.error("❌ MONGO_URL environment variable is not set!");
+  console.error("❌ MONGO_URL not set!");
   process.exit(1);
 }
-
-console.log("🔗 Attempting to connect to MongoDB...");
 
 mongoose
   .connect(mongoUrl)
   .then(() => {
-    console.log("MongoDB connected ✅");
+    console.log("MongoDB connected ✔");
     app.listen(PORT, () => {
-      console.log(`Backend running 🏃‍➡️ on port ${PORT} 📡`);
-      console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+      console.log(`Server running on port ${PORT}`);
     });
   })
   .catch((err) => {
-    console.log("MongoDB connection failed ❌", err);
+    console.error("MongoDB error ❌", err);
     process.exit(1);
   });

@@ -1,5 +1,5 @@
 import Navbar from "../Navbar";
-import Hero from "./Hero";
+import Hero from "./Hero.jsx";
 import Stats from "./Stats";
 import OpenAccount from "../OpenAccount";
 import Footer from "../footer";
