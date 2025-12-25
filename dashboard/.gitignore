@@ -1,51 +1,43 @@
 # ===============================
-# Node / React
+# Dependencies
 # ===============================
 node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
 
+# ===============================
 # Build output
-build/
+# ===============================
 dist/
+build/
 
 # ===============================
 # Environment variables
 # ===============================
 .env
 .env.local
-.env.development
-.env.production
+.env.*.local
 
 # ===============================
-# Python / FastAPI
+# Vite cache
 # ===============================
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-venv/
-.env.venv
-
-# ===============================
-# OS / Editor junk
-# ===============================
-.DS_Store
-Thumbs.db
-
-# VS Code
-.vscode/
-!.vscode/extensions.json
+.vite/
 
 # ===============================
 # Logs
 # ===============================
-logs/
-*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
 
 # ===============================
-# Git lock (safety)
+# IDE / OS files
 # ===============================
-.git/index.lock
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ===============================
+# Temporary files
+# ===============================
+*.tmp
+*.temp
