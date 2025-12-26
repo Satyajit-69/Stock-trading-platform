@@ -3,29 +3,51 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const passport = require("passport");
 
+// Initialize app
 const app = express();
 const PORT = process.env.PORT || 3001;
 const mongoUrl = process.env.MONGO_URL || process.env.MONGODB_URI;
 
+// -----------------------------
+// Passport Config
+// -----------------------------
+require("./auth/passport");
+
+// -----------------------------
 // Models
+// -----------------------------
 const HoldingModel = require("./models/HoldingModel");
 const PositionModel = require("./models/PositionModel");
 const OrderModel = require("./models/OrderModel");
 
 // -----------------------------
+// Routes
+// -----------------------------
+const authRoutes = require("./auth/auth.routes");
+
+// -----------------------------
 // Middleware
 // -----------------------------
-app.use(cors({
-  origin: [
-    "http://localhost:3000",
-    "http://localhost:5173",
-  ],
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:5173",
+    ],
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 app.use(bodyParser.json());
+app.use(passport.initialize());
+
+// -----------------------------
+// Auth Routes
+// -----------------------------
+app.use("/api/auth", authRoutes);
 
 // -----------------------------
 // TEST ROUTE (Add sample positions)
@@ -130,7 +152,6 @@ app.post("/sellOrder", async (req, res) => {
   try {
     const { name, qty, price } = req.body;
 
-    // Check holdings first
     let stock = await HoldingModel.findOne({ name });
     let fromHolding = true;
 
@@ -145,25 +166,30 @@ app.post("/sellOrder", async (req, res) => {
 
     if (stock.qty < qty) {
       return res.status(400).json({
-        message: `Insufficient quantity. You have ${stock.qty}, trying to sell ${qty}`
+        message: `Insufficient quantity. You have ${stock.qty}, trying to sell ${qty}`,
       });
     }
 
-    // Update qty
     stock.qty -= qty;
 
     if (stock.qty === 0) {
-      fromHolding ? await HoldingModel.deleteOne({ name }) : await PositionModel.deleteOne({ name });
+      fromHolding
+        ? await HoldingModel.deleteOne({ name })
+        : await PositionModel.deleteOne({ name });
     } else {
       await stock.save();
     }
 
-    // Save order
-    const sellOrder = new OrderModel({ name, qty, price, mode: "SELL" });
+    const sellOrder = new OrderModel({
+      name,
+      qty,
+      price,
+      mode: "SELL",
+    });
+
     await sellOrder.save();
 
     res.status(200).json({ message: "Sell order completed!" });
-
   } catch (err) {
     console.error("Sell error:", err);
     res.status(500).json({ message: "Error processing sell order" });
@@ -181,13 +207,13 @@ app.get("/getStockPrice/:name", async (req, res) => {
     if (!stock) stock = await PositionModel.findOne({ name });
 
     if (!stock) {
-      return res.status(404).json({ price: 0, message: "Stock not found" });
+      return res
+        .status(404)
+        .json({ price: 0, message: "Stock not found" });
     }
 
     const price = parseFloat(stock.price || stock.ltp || stock.avg || 0);
-
     res.json({ price });
-
   } catch (err) {
     console.error("Error in getStockPrice:", err);
     res.status(500).json({ price: 0, message: err.message });
