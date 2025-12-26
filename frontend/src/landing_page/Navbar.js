@@ -381,7 +381,7 @@ function Navbar() {
             </Avatar>
             <Box>
               <Typography variant="subtitle1" fontWeight={600}>
-                John Doe
+                User
               </Typography>
               <Typography variant="body2" sx={{ opacity: 0.9 }}>
                 Investor

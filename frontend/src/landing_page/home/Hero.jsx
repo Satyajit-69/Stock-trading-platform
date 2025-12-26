@@ -74,7 +74,7 @@ export default function Hero() {
         <div className="relative max-w-5xl mx-auto">
           <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl blur-3xl opacity-20"></div>
           <img
-            src="/assets/homeHero.png"
+            src="/assets/ui.jpg"
             alt="Stockmates Trading Platform"
             className="relative w-full rounded-2xl shadow-2xl border border-gray-200 hover:scale-[1.02] transition-transform duration-500"
           />

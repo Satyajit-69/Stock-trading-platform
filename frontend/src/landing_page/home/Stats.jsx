@@ -53,7 +53,7 @@ function Stats() {
                 <div className="col-lg-10 text-center">
                     <div className="overflow-hidden rounded-3 shadow-lg">
                         <img 
-                            src="assets/ecosystem.png" 
+                            src="assets/price.jpg" 
                             alt="ecosystem" 
                             className="img-fluid object-fit-contain hover:scale-105 transition-transform duration-500" 
                             style={{ width :'100%' , maxHeight : '700px' }}
