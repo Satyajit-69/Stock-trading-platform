@@ -30,28 +30,15 @@ function TicketSection() {
           />
 
           <SupportOptions
-            heading="Your Zerodha Account"
+            heading="Your StockMates Account"
             options={[
               "Your profile",
               "Account modification",
-              "Client Master Report (CMR) and Depository Participant (DP)",
-              "Nomination",
-              "Transfer and conversion of securities",
+      
             ]}
           />
 
-          <SupportOptions
-            heading="Kite"
-            options={[
-              "IPOS",
-              "Trading FAQs",
-              "Margin Trading Faculty (MTF) and Margins ",
-              "Chat and orders",
-              "Alret and Nudges",
-              "General",
-            ]}
-          />
-
+         
           <SupportOptions
             heading="Funds"
             options={[

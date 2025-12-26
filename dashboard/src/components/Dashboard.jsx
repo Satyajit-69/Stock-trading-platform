@@ -11,6 +11,7 @@ import Positions from "./Positions";
 import Funds from "./Funds";
 import Apps from "./Apps";
 import { GeneralContextProvider } from "./GeneralContext";
+import Footer from "./footer";
 
 const Dashboard = () => {
   return (
@@ -42,7 +43,9 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
+        
       </div>
+      <Footer/>
     </GeneralContextProvider>
   );
 };
