@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Create axios instance
 const api = axios.create({
-  baseURL: "http://localhost:3001", // backend URL
+  baseURL: "https://stock-trading-platform-6x0l.onrender.com/", // backend URL
   withCredentials: true,
 });
 

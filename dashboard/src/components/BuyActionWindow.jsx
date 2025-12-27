@@ -5,7 +5,7 @@ import { X, TrendingUp, DollarSign, Package, AlertCircle } from "lucide-react";
 import GeneralContext from "./GeneralContext";
 
 // CONFIG
-const API_BASE = "http://localhost:3001";
+const API_BASE = "https://stock-trading-platform-6x0l.onrender.com/";
 
 const BuyActionWindow = ({ uid }) => {
   const [stockQuantity, setStockQuantity] = useState(1);

@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 
 // Backend URL
-const API_BASE = "http://localhost:3001";
+const API_BASE = "https://stock-trading-platform-6x0l.onrender.com/";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);

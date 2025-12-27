@@ -12,7 +12,7 @@ const Positions = () => {
   const fetchPositions = async () => {
     setLoading(true);
     try {
-      const res = await axios.get("http://localhost:3001/allPositions");
+      const res = await axios.get("https://stock-trading-platform-6x0l.onrender.com/allPositions");
       setPositions(res.data);
     } catch (err) {
       console.error("Error fetching positions:", err);

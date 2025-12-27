@@ -22,7 +22,7 @@ function Login() {
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = "http://localhost:3001/api/auth/google";
+    window.location.href = "https://stock-trading-platform-6x0l.onrender.com/api/auth/google";
   };
 
   return (

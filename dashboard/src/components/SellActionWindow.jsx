@@ -5,7 +5,7 @@ import { X, TrendingDown, DollarSign, Package, AlertCircle, RefreshCw } from "lu
 import GeneralContext from "./GeneralContext";
 
 // CONFIG
-const API_BASE = "http://localhost:3001";
+const API_BASE = "https://stock-trading-platform-6x0l.onrender.com/";
 
 const SellActionWindow = ({ uid }) => {
   const [stockQuantity, setStockQuantity] = useState(1);
