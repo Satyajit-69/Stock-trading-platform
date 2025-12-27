@@ -7,7 +7,8 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "/api/auth/google/callback"
+      callbackURL:
+        "https://stock-trading-platform-6x0l.onrender.com/api/auth/google/callback",
     },
     async (_, __, profile, done) => {
       let user = await User.findOne({ email: profile.emails[0].value });
@@ -17,7 +18,7 @@ passport.use(
           name: profile.displayName,
           email: profile.emails[0].value,
           googleId: profile.id,
-          avatar: profile.photos[0].value
+          avatar: profile.photos[0].value,
         });
       }
 
