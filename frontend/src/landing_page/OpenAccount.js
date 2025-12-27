@@ -9,7 +9,7 @@ function OpenAccount() {
 
     if (token) {
       // User already logged in → dashboard
-      navigate("/dashboard");
+        window.location.href = "https://stock-mates-dashboard.vercel.app/";
     } else {
       // New user → signup
       navigate("/signup");
