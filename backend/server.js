@@ -35,10 +35,12 @@ app.use(
     origin: [
       "http://localhost:3000",
       "http://localhost:5173",
+      "https://stock-trading-platform-ochre.vercel.app",
     ],
     credentials: true,
   })
 );
+
 
 app.use(express.json());
 app.use(bodyParser.json());
