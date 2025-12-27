@@ -3,7 +3,7 @@ import React from "react";
 function User() {
   const handleDashboard = () => {
     // Redirect to dashboard app (separate project)
-    window.location.href = "http://localhost:5173";
+    window.location.href = "https://stock-trading-platform-ochre.vercel.app/";
   };
 
   return (

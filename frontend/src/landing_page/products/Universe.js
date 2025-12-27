@@ -8,7 +8,7 @@ function ProductsUniverse() {
 
   const handleGetStarted = () => {
     if (isAuthenticated) {
-    window.location.href = "http://localhost:5173";
+    window.location.href = "https://stock-trading-platform-ochre.vercel.app/";
     } else {
       navigate("/login");
     }

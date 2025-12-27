@@ -29,7 +29,7 @@ const Menu = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    window.location.href = "http://localhost:3000/login";
+    window.location.href = "https://stock-trading-platform-ochre.vercel.app/login";
   };
 
   const linkClass = ({ isActive }) =>
