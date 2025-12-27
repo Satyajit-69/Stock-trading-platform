@@ -3,7 +3,6 @@ import axios from "axios";
 // Create axios instance
 const api = axios.create({
   baseURL: "https://stock-trading-platform-6x0l.onrender.com/", // backend URL
-  withCredentials: true,
 });
 
 // Attach JWT automatically to every request
