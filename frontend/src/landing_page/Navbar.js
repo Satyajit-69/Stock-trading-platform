@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
   AppBar,
   Toolbar,
@@ -41,13 +41,26 @@ function Navbar() {
   );
 
   const navigate = useNavigate();
+  const location = useLocation();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
-  // Sync auth state
+  // Sync auth state on route change and storage events
   useEffect(() => {
-    setIsAuthenticated(!!localStorage.getItem("token"));
-  }, []);
+    const checkAuth = () => {
+      setIsAuthenticated(!!localStorage.getItem("token"));
+    };
+
+    // Check on mount and route change
+    checkAuth();
+
+    // Listen for storage events (for multi-tab sync)
+    window.addEventListener("storage", checkAuth);
+
+    return () => {
+      window.removeEventListener("storage", checkAuth);
+    };
+  }, [location]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
