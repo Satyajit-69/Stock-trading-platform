@@ -70,7 +70,7 @@ function Navbar() {
       label: "Dashboard",
       icon: <Dashboard />,
       action: () => {
-        window.location.href = "https://stock-trading-platform-ochre.vercel.app/";
+        window.location.href = "https://stock-mates-dashboard.vercel.app/";
         setIsSidebarOpen(false);
       },
     },
