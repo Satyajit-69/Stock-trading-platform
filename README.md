@@ -1,121 +1,226 @@
-# Zerodha Clone
+📈 StockMates — Secure Stock Tracking & Investor Collaboration Platform
 
-A full-stack stock trading platform inspired by Zerodha. This project replicates the core features and user interface of India's leading discount brokerage platform.
+StockMates is a full-stack stock monitoring and investor collaboration platform that enables users to securely authenticate using OAuth (Google Sign-In), track real-time stock data, and collaborate with other investors — all within a clean, scalable web application.
 
-## Project Status
+Built with real-world security, performance, and extensibility in mind, StockMates mirrors how modern fintech products are designed and engineered.
 
-Currently building the complete application with both frontend and backend.
-Live Demo : - https://stock-trading-platform-seven.vercel.app/
+🔐 Authentication First (OAuth)
 
-## Features
+StockMates uses OAuth 2.0 (Google Authentication) as its primary authentication mechanism.
 
-- Homepage with hero section and stats
-- Product showcase (Kite, Console, Coin, Varsity, Kite Connect)
-- Pricing page with brokerage details
-- Support center with help resources
-- About page with company information
-- Responsive design for all devices
+Why OAuth?
 
-## Tech Stack
+✅ Secure, password-less authentication
 
-**Frontend**
-- React.js
-- React Router DOM
-- CSS3
+✅ Industry-standard login flow
 
-**Backend** (Coming Soon)
-- Node.js
-- Express.js
-- MongoDB
+✅ Faster onboarding experience
 
-## Installation
+✅ No password storage or handling
 
-```bash
-# Clone the repository
-git clone https://github.com/yourusername/zerodha-clone.git
+✅ Reduced security risk
 
-# Navigate to frontend
-cd zerodha-clone/frontend
+This approach reflects how production-grade fintech and SaaS platforms handle authentication.
 
-# Install dependencies
+🌐 Live Demo
+
+Frontend: (Add deployed link)
+
+Backend API: (Add backend link if deployed)
+
+🎯 Project Vision
+
+Retail investors often struggle with:
+
+Scattered stock tracking tools
+
+Weak collaboration platforms
+
+Poor real-time updates
+
+Insecure authentication systems
+
+StockMates solves this by combining:
+
+Secure OAuth-based access
+
+Live market monitoring
+
+Investor-focused collaboration
+
+Scalable backend architecture
+
+Track smarter. Collaborate better. Invest confidently.
+
+🚀 Key Features
+🔐 Secure Authentication (OAuth)
+
+Google OAuth 2.0 login
+
+Token-based session handling
+
+Protected routes and APIs
+
+Seamless login/logout flow
+
+📊 Stock Monitoring
+
+Real-time stock price tracking
+
+Clean and responsive dashboards
+
+Optimized API calls for performance
+
+Scalable data-fetching architecture
+
+👥 Investor Collaboration
+
+Designed for investor interaction (not generic chat)
+
+Scalable backend for future group features
+
+Clean UI structure for collaboration workflows
+
+⚡ Real-Time Capabilities
+
+WebSocket-based real-time updates
+
+Instant stock price refresh
+
+No page reloads for live data
+
+🧠 Tech Stack
+Frontend
+
+React.js
+
+Tailwind CSS
+
+OAuth (Google Sign-In)
+
+Responsive UI design
+
+Backend
+
+Node.js
+
+Express.js
+
+MongoDB + Mongoose
+
+OAuth token verification
+
+REST APIs
+
+WebSockets
+
+Dev & Deployment
+
+Environment-based configuration
+
+Modular backend architecture
+
+Ready for Vercel / Render deployment
+
+🏗️ System Architecture
+User
+ ↓
+Google OAuth
+ ↓
+Frontend (React)
+ ↓
+Backend API (Node + Express)
+ ↓
+MongoDB (Users & Stock Data)
+
+
+Security Flow
+
+OAuth token issued by Google
+
+Token verified on backend
+
+User session established securely
+
+Protected routes enforced
+
+📂 Project Structure
+stockmates/
+├── frontend/
+│   ├── components/
+│   ├── pages/
+│   ├── auth/
+│   ├── services/
+│   └── styles/
+│
+├── backend/
+│   ├── controllers/
+│   ├── routes/
+│   ├── models/
+│   ├── middlewares/
+│   ├── oauth/
+│   └── app.js
+
+⚙️ Getting Started (Local Setup)
+1️⃣ Clone the repository
+git clone https://github.com/your-username/stockmates.git
+cd stockmates
+
+2️⃣ Backend Setup
+cd backend
 npm install
 
-# Start development server
+
+Create .env:
+
+PORT=5000
+MONGO_URL=your_mongodb_url
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+
+
+Run backend:
+
 npm start
-```
 
-The app will run on `http://localhost:3000`
-
-## Project Structure
-
-```
-Zerodha/
-├── frontend/
-│   ├── src/
-│   │   ├── landing_page/
-│   │   │   ├── home/
-│   │   │   ├── products/
-│   │   │   ├── pricing/
-│   │   │   ├── support/
-│   │   │   ├── about/
-│   │   │   ├── Navbar.js
-│   │   │   └── Footer.js
-│   │   ├── App.js
-│   │   └── index.js
-│   └── package.json
-└── backend/ (Coming Soon)
-```
-
-## Roadmap
-
-### Frontend ✅
-- [x] Homepage
-- [x] Products page
-- [x] Pricing page
-- [x] Support page
-- [x] About page
-- [x] Responsive navigation
-
-### Backend (In Progress)
-- [ ] User authentication
-- [ ] Portfolio management
-- [ ] Order management
-- [ ] Market data integration
-- [ ] Dashboard API
-- [ ] Database setup
-
-### Future Features
-- [ ] Real-time stock data
-- [ ] Trading functionality
-- [ ] User dashboard
-- [ ] Portfolio tracking
-- [ ] Watchlist feature
-
-## Development
-
-```bash
-# Run frontend
+3️⃣ Frontend Setup
 cd frontend
-npm start
+npm install
+npm run dev
 
-# Run backend (once available)
-cd backend
-npm start
-```
+🧪 Tested Scenarios
 
-## Contributing
+OAuth login & logout
 
-This is a learning project. Contributions and suggestions are welcome!
+Token verification on backend
 
-## Author
+Protected API access
 
-**Your Name**
-- GitHub: [@yourusername](https://github.com/Satyajit-69/)
+Stock data fetching
 
-## Disclaimer
+Real-time updates
 
-This is an educational project. Not affiliated with Zerodha.
+Error handling & edge cases
 
-## License
+🔮 Future Enhancements
 
-MIT
+📈 Advanced stock charts & indicators
+
+🧠 AI-based stock insights
+
+👥 Investor groups & discussions
+
+🔔 Price alerts & notifications
+
+📊 Portfolio tracking
+
+📰 Market news integration
+
+👨‍💻 Author
+
+Satyajit Sahoo
+Computer Science Student | Full-Stack Developer
+
+GitHub: https://github.com/Satyajit-69
+
+LinkedIn: https://www.linkedin.com/in/satyajit-sahoo-b16795315/
