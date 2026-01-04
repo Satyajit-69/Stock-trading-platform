@@ -24,9 +24,9 @@ This approach reflects how production-grade fintech and SaaS platforms handle au
 
 🌐 Live Demo
 
-Frontend: (Add deployed link)
+Frontend: https://stock-trading-platform-ochre.vercel.app/
 
-Backend API: (Add backend link if deployed)
+Backend API: https://stock-trading-platform-6x0l.onrender.com
 
 🎯 Project Vision
 
