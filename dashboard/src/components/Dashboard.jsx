@@ -10,6 +10,7 @@ import Holdings from "./Holdings";
 import Positions from "./Positions";
 import Funds from "./Funds";
 import Apps from "./Apps";
+import MyGrps from "./MyGrps";
 import { GeneralContextProvider } from "./GeneralContext";
 import Footer from "./Footer";
 
@@ -39,6 +40,7 @@ const Dashboard = () => {
                 <Route path="/positions" element={<Positions />} />
                 <Route path="/funds" element={<Funds />} />
                 <Route path="/apps" element={<Apps />} />
+                <Route path="/mygrps" element={<MyGrps />} />
               </Routes>
             </div>
           </div>
