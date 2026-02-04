@@ -3,9 +3,9 @@ import SupportOptions from "./SupportOptions";
 
 function TicketSection() {
   return (
-    <div className="container p-4 ">
-      <div className="row">
-        <div className="col-8">
+    <div className="container p-3 p-md-4">
+      <div className="row g-3 g-md-4">
+        <div className="col-12 col-lg-8 order-2 order-lg-1">
           {/* Left side dropdowns */}
           <SupportOptions
             heading="Account Opening"
@@ -34,11 +34,9 @@ function TicketSection() {
             options={[
               "Your profile",
               "Account modification",
-      
             ]}
           />
 
-         
           <SupportOptions
             heading="Funds"
             options={[
@@ -60,81 +58,26 @@ function TicketSection() {
               "Segments",
             ]}
           />
-
-          <SupportOptions
-            heading="Coin"
-            options={[
-              "Mutual Funds",
-              "National Pension Scheme (NPS)",
-              "Fixed Deposit (FD)",
-              "Features on Coin",
-              "Payments and Orders",
-              "General",
-            ]}
-          />
         </div>
 
-        <div className="col-4 ">
-          {/* Right side links */}
-
-          <div
-            className="fandq p-3 mb-4 "
+        <div className="col-12 col-lg-4 order-1 order-lg-2">
+          <div 
+            className="d-flex justify-content-center align-items-center"
             style={{
-              backgroundColor: "artyellow",
-              borderLeft: "10px solid orange ",
+              height: "100%",
+              minHeight: "250px",
             }}
           >
-            <ul className="">
-              <li
-              className="mb-2">
-                {" "}
-                <a href="./">
-                  Exclusion of F&O contracts on 8 securities from August 29,
-                  2025
-                </a>
-              </li>
-              <li>
-                <a href="./" className="mt-4">
-                  F&Q contract expiry day changes{" "}
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          <div
-            style={{
-              borderRadius: "8px",
-            }}
-          >
-            <h5 style={{backgroundColor : '#e5e1e1ff', padding : '1rem' , fontSize : '1.2rem' , fontWeight : 'bold' , fontFamily : 'Nunito' }}>Quick Links</h5>
-            <ol style={{ padding : 'auto' }}>
-              <li>
-                <div style={{backgroundColor : 'white'}}>
-                    <a href="/account-opening">Track account opening</a>
-                </div>
-               
-              </li>
-              <li>
-                  <div style={{backgroundColor : 'white'}}>
-                    <a href="/segment-activation">Track segment activation</a>
-                </div>
-                
-              </li>
-              <li>
-                  <div style={{backgroundColor : 'white'}}>
-                    <a href="/intraday-margins">Intraday margins</a>
-
-                </div>
-             
-              </li>
-              <li>
-                  <div style={{backgroundColor : 'white'}}>
-
-                <a href="/kite-manual">Kite user manual</a>
-                </div>
-                
-              </li>
-            </ol>
+            <img 
+              src="/assets/questions-animate.svg" 
+              alt="questions_image" 
+              className="img-fluid"
+              style={{
+                maxHeight: "400px",
+                width: "100%",
+                objectFit: "contain",
+              }}
+            />
           </div>
         </div>
       </div>
